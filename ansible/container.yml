@@ -1,0 +1,25 @@
+version: "1"
+services:
+  mysql:
+    image: mysql
+    hostname: mysql
+    domainname: mydomain.com
+    privileged: true
+
+  manager:
+    image: centos:6
+    ports:
+      - "6180:7180"
+    hostname: manager
+    domainname: mydomain.com
+    privileged: true
+    # command: "/etc/init.d/cloudera-scm-server start && tailf /var/log/cloudera-scm-server/cloudera-scm-server.log"
+    entrypoint: /entrypoint.sh
+
+  agent1:
+    image: centos:6
+    hostname: agent1
+    domainname: mydomain.com
+    privileged: true
+    # command: "/etc/init.d/cloudera-scm-agent start && tailf /var/log/cloudera-scm-agent/cloudera-scm-agent.log"
+    entrypoint: /entrypoint.sh

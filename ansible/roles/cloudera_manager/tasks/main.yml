@@ -1,0 +1,15 @@
+- name: copy repo files to /etc/yum.repos.d
+  copy: src="cloudera-manager.repo" dest="/etc/yum.repos.d/cloudera-manager.repo"
+
+- name: install cloudera-manager and related components
+  yum: name={{ item }} state=present
+  with_items:
+    - oracle-j2sdk1.7
+    - mysql-connector-java
+    - cloudera-manager-server
+
+- name: db.properties
+  copy: src=db.properties dest=/etc/cloudera-scm-server/db.properties owner=cloudera-scm group=cloudera-scm
+
+- name: copy entrypoint script
+  copy: src=entrypoint.sh dest=/entrypoint.sh mode=a+x
