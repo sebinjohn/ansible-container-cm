@@ -4,7 +4,13 @@ services:
     image: mysql
     hostname: mysql
     domainname: mydomain.com
+    container_name: mysql.mydomain.com
     privileged: true
+    environment:
+      - MYSQL_DATABASE=cmf
+      - MYSQL_USER=cmf
+      - MYSQL_PASSWORD=cmf
+      - MYSQL_ROOT_PASSWORD=redhat
 
   manager:
     image: centos:6
@@ -12,14 +18,14 @@ services:
       - "6180:7180"
     hostname: manager
     domainname: mydomain.com
+    container_name: manager.mydomain.com
     privileged: true
-    # command: "/etc/init.d/cloudera-scm-server start && tailf /var/log/cloudera-scm-server/cloudera-scm-server.log"
-    entrypoint: /entrypoint.sh
+    command: bash -c "/etc/init.d/cloudera-scm-server start && tailf /var/log/cloudera-scm-server/cloudera-scm-server.log"
 
   agent1:
     image: centos:6
     hostname: agent1
     domainname: mydomain.com
+    container_name: agent1.mydomain.com
     privileged: true
-    # command: "/etc/init.d/cloudera-scm-agent start && tailf /var/log/cloudera-scm-agent/cloudera-scm-agent.log"
-    entrypoint: /entrypoint.sh
+    command: bash -c "/etc/init.d/cloudera-scm-agent start && tailf /var/log/cloudera-scm-agent/cloudera-scm-agent.log"
